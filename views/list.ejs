@@ -1,0 +1,60 @@
+<%- include("header") %>
+
+    <body>
+        <div class="container-fluid">
+            <div class="box" id="heading">
+                <h2>
+                    <%= listTitle %>
+                </h2>
+                <h4 id="date"></h4>
+                <h5 id="clock"></h5>
+            </div>
+
+            <div class="box" id="body">
+                <% let length=tasks.length %>
+                    <% if(length>1) {%>
+                        <h4 class="hasTask taskNo">You have <strong>
+                                <%= length %>
+                            </strong> tasks today.</h4>
+                        <% } else if(length==1){ %>
+                            <h4 class="hasTask taskNo">You have <strong>
+                                    <%= length %>
+                                </strong> task today.</h4>
+                            <% } else {%>
+                                <h4 class="noTask taskNo">You have no task today.</h4>
+                                <% } %>
+                                    <% tasks.forEach(item=> { %>
+                                        <form action="/delete" method="post">
+                                            <div class="item">
+                                                <input type="checkbox" id="taskCheck" name="checkedItem"
+                                                    onchange="this.form.submit()" value="<%= item._id %>">
+                                                <p class="items">
+                                                    <%= item.name %>
+                                                </p>
+                                            </div>
+                                            <input type="hidden" name="listName" value="<%=listTitle %>">
+                                        </form>
+                                        <% }); %>
+
+                                            <form class="item" action="/" method="post">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <input type="text" name="new_task" placeholder="Add new task"
+                                                            autocomplete="off" maxlength="200">
+                                                        <button type="submit" name="listName" value="<%=listTitle %>"
+                                                            class="add">+</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+            </div>
+        </div>
+
+        <!-- js file -->
+        <script type="text/javascript" src="/js/dateTime.js"></script>
+        <!-- bootstrap js -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    </body>
+
+    <%- include("footer.ejs") %>
